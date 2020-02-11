@@ -58,7 +58,6 @@ a:hover{
 hr{
   border-color: #bbbbbb;
   margin-top: 80px;
-  align:
 }
 
 .post-header{
@@ -69,6 +68,7 @@ hr{
 
 .post-detail-header{
   padding-left: 10%;
+  padding-right: 10%;
   margin-bottom: 50px;
   text-align: left;
 }
