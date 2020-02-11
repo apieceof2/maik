@@ -13,6 +13,10 @@ body{
   margin-bottom: 150px;
 }
 
+.header{
+  margin-bottom: 150px;
+}
+
 #title{
   font-family:"Times New Roman",Times,serif;
 }
@@ -24,6 +28,11 @@ body{
 
 #header-hr{
   border-top: 1px solid black;
+}
+
+.header-hr{
+  border-top: 1px solid black;
+  margin-bottom: 20px;
 }
 
 #about{
