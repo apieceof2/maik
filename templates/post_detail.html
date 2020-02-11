@@ -2,7 +2,6 @@
 {% block head %}
     <link rel="stylesheet" href="../static/plugins/editor/examples/css/style.css" />
     <link rel="stylesheet" href="../static/plugins/editor/css/editormd.preview.css" />
-    <link rel="shortcut icon" href="https://pandao.github.io/editor.md/favicon.ico" type="image/x-icon" />
     <style>
         .editormd-html-preview {
             width: 70%;
@@ -18,7 +17,7 @@
       <h3 id=sub-title>阳光之下没有新鲜事</h3>
     </div>
 </div>
-<div id="layout">
+<!-- <div id="layout">
     <header>
         <h1>
             {{post.title}}
@@ -38,11 +37,14 @@
     <div id="test-editormd-view2">
         <textarea id="append-test" style="display:none;">{{post.content}}</textarea>
     </div>
-</div>
+</div> -->
 <!-- <script src="js/zepto.min.js"></script>
     <script>		
         var jQuery = Zepto;  // 为了避免修改flowChart.js和sequence-diagram.js的源码，所以使用Zepto.js时想支持flowChart/sequenceDiagram就得加上这一句
     </script> -->
+
+
+{{post.content | safe}}
 <script src="../static/plugins/editor/examples/js/jquery.min.js"></script>
 <script src="../static/plugins/editor/lib/marked.min.js"></script>
 <script src="../static/plugins/editor/lib/prettify.min.js"></script>
