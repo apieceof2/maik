@@ -30,5 +30,11 @@ def post():
 @validate_login
 def edit(post_id):
     post = Post.find(post_id)
-    return render_template('edit.html', post=post)
+    return render_template('edit.html', post=post, post_id=post_id)
 
+@main.route('/update/<int:post_id>', methods=['POST'])
+@validate_login
+def update(post_id):
+    post = Post.find(post_id)
+    post.update(request.form)
+    return redirect(url_for('main.index', page=1))

@@ -51,11 +51,8 @@
         });
     });
     $("#submit").bind('click', function() {
-        var html = testEditor.getHTML();
         var form = document.getElementById('post-form');
         var markdown_preview = document.getElementsByClassName('markdown-body editormd-preview-container')[0].innerHTML
-        
-
         form['html'].value = markdown_preview
         form.submit();
     });
