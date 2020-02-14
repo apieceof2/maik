@@ -42,12 +42,13 @@
     <script>		
         var jQuery = Zepto;  // 为了避免修改flowChart.js和sequence-diagram.js的源码，所以使用Zepto.js时想支持flowChart/sequenceDiagram就得加上这一句
     </script> -->
-<span><h4 class=post-detail-header>{{post.title}}<span class=post-time>
+<span><h3 class=post-detail-header>{{post.title}}<span class=post-time>
     <script>
       document.write(moment({{ post.created_time }}).format("YYYY/MM/DD"))
     </script>
-  </span><hr></h4></span>
+  </span></h3></span>
 <div class="markdown-body editormd-preview-container">
+    <hr>
     {{post.html | safe}}
 </div>
 
