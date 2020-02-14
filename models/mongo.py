@@ -139,12 +139,20 @@ class Mongua(object):
         name = cls.__name__
         return mongua.db[name].find().count()
 
+
     @classmethod
-    def sub_find(cls, start, offset):
+    def all_sorted_by_id(cls, sort=-1):
         name = cls.__name__
-        ds =cls._find()[start: start+offset]
-        res = [i for i in ds]
-        return res
+        # TODO 过滤掉被删除的元素
+        kwargs ={}
+        kwargs['deleted'] = False
+        kwargs['confidential'] = False
+        ds = mongua.db[name].find(kwargs)
+        ds = ds.sort('id', sort)
+        l = [cls._new_with_bson(d) for d in ds]
+        return l
+        
+    
 
     # TODO, 还应该有一个函数 find(name, **kwargs)
     @classmethod

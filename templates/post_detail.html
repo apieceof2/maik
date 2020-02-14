@@ -47,10 +47,11 @@
       document.write(moment({{ post.created_time }}).format("YYYY/MM/DD"))
     </script>
   </span><hr></h4></span>
-  
-<div class="markdown-body">
+<div class="markdown-body editormd-preview-container">
     {{post.html | safe}}
 </div>
+
+
 <script src="../static/plugins/editor/examples/js/jquery.min.js"></script>
 <script src="../static/plugins/editor/lib/marked.min.js"></script>
 <script src="../static/plugins/editor/lib/prettify.min.js"></script>

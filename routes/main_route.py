@@ -25,7 +25,6 @@ def index_no_args():
     posts, is_next = pagination(1)
     return render_template('index.html', posts = posts, is_next=is_next, page=1)
 
-
 @main.route('/post_detail/<int:id>')
 def post_detail(id):
     post = Post.find(id)

@@ -11,3 +11,9 @@ class Post(Mongua):
         ('confidential',bool, False),
     ]
 
+    @classmethod
+    def sub_find(cls, start, offset):
+        name = cls.__name__
+        ds =cls.all_sorted_by_id()
+        res = [i for i in ds]
+        return res
