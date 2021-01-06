@@ -26,7 +26,6 @@ def validate_login(f):
     return decorate
 
 
-
 # 检测是否登录的decorator
 def login_required(func):
     def wrapper(*args, **kwargs):

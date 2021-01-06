@@ -1,0 +1,12 @@
+FORMAT_CONFIG = dict(PAYMENT_TYPE_ROW=2,
+                     PAYMENT_START_COL=9,
+                     RECORD_START_ROW=5,
+                     RECORD_CAR_ID_COL=1,
+                     RECORD_ROUTE_NAME_COL=2,
+                     RECORD_REVENUE_COL=3,
+                     RECORD_CASHIER_NAME_COL=4,
+                     RECORD_REMNANT_COL=5,
+                     RECORD_FAKE_COL=7,
+                     TITLE_ROW=3,
+                     DATE_ROW=1,
+                     )
