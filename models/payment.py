@@ -1,10 +1,9 @@
 from .mongo import Mongo
-from bson import ObjectId
 
 
 class Payment(Mongo):
     __fields__ = Mongo.__fields__ + [
-        ('payment_name', str, ''),
+        ('name', str, ''),
         ('payment_type_name', str, ''),
     ]
 

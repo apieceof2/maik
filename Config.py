@@ -1,12 +1,42 @@
-FORMAT_CONFIG = dict(PAYMENT_TYPE_ROW=2,
-                     PAYMENT_START_COL=9,
-                     RECORD_START_ROW=5,
-                     RECORD_CAR_ID_COL=1,
-                     RECORD_ROUTE_NAME_COL=2,
-                     RECORD_REVENUE_COL=3,
-                     RECORD_CASHIER_NAME_COL=4,
-                     RECORD_REMNANT_COL=5,
-                     RECORD_FAKE_COL=7,
-                     TITLE_ROW=3,
-                     DATE_ROW=1,
-                     )
+INCOME_CONFIG = dict(
+    START_ROW=5,
+    PAYMENT_TYPE_ROW=2,
+    PAYMENT_START_COL=15,
+    CAR_COL=1,
+    ROUTE_COL=2,
+    REVENUE_COL=3,
+    CASHIER_COL=4,
+    REMNANT_COL=5,
+    FAKE_COL=7,
+    PEOPLE_NUM_BY_CASH_COL=10,
+    PEOPLE_NUM_BY_CAL_COL=13,
+    PEOPLE_NUM_BY_CAR_COL=14,
+    TITLE_ROW=3,
+    DATE_ROW=1,
+)
+
+EXPEND_CONFIG = dict(
+    START_ROW=5,
+    CAR_NAME_COL=1,
+    ROUTE_NAME_COL=2,
+    RESOURCE_TYPE_COL=3,
+    DATE_ROW=1,
+    DATE_COL=0,
+    TITLE_ROW=3,
+)
+
+TEST_CONFIG = dict(
+    START_ROW=5,
+    CAR_NAME_COL=1,
+    ROUTE_NAME_COL=2,
+    RESOURCE_TYPE_COL=3,
+    DATE_ROW=1,
+    DATE_COL=0,
+    TITLE_ROW=3,
+)
+
+config = {
+    'Income2Form': INCOME_CONFIG,
+    'Expend2Form': EXPEND_CONFIG,
+    'ToForm': TEST_CONFIG,
+}

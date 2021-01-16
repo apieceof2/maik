@@ -119,7 +119,7 @@ class Mongo(object):
         # kwargs 为关键字, 找到则用form更新, 否则新建插入
         m = cls.find_one(**kwargs)
         if m:
-            m.update(form)
+            m.update(form, hard=True)
         else:
             m = cls.insert(form)
         return m
