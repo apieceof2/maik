@@ -40,17 +40,21 @@ class ToForm:
         if not end:
             setattr(self, 'end_row', self.get_end_row())
 
-    def get_cell_value(self, row, col, t):
+    def get_cell_value(self, row, col, t=None):
         # 获得这张表row行, col列的数据,并且保证type为t, 转型
         a = self.sheet.cell_value(row, col)
         if a:
-            return t(a)
+            if t:
+                return t(a)
+            else:
+                return a
         else:
             return None
 
     @abstractmethod
     def read_line(self, row):
-        # 虚函数, 用来读入一行数据, 加到数据库中
+        # 功能: 读入某一行的记录, 然后载入到数据库中
+        # params row: 行号
         pass
 
     @abstractmethod
@@ -65,7 +69,6 @@ class ToForm:
         # 将整整一张表载入数据库
         for row in range(getattr(self, 'start_row', 0), getattr(self, 'end_row', 0)):
             self.read_line(row)
-        # log('done')
 
 
 

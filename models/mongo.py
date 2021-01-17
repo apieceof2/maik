@@ -18,6 +18,13 @@ class Mongo(object):
         ('ut', str, ''),
     ]
 
+    def __repr__(self):
+        s = '[ '
+        for key, value in self.__dict__.items():
+            s = s + str(key) + ':' + str(value) + ' , '
+        s = s + ' ]'
+        return s
+
     def get_id(self):
         return getattr(self, '_id', None)
 
@@ -122,6 +129,7 @@ class Mongo(object):
             m.update(form, hard=True)
         else:
             m = cls.insert(form)
+            m.update(form, hard=True)
         return m
 
     @classmethod
