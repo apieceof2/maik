@@ -49,7 +49,7 @@ class Income2Form(ToForm, ABC):
                 payment_name = payment_type_name + '#'
             if payment_name == '合计':
                 payment_name = payment_type_name + payment_name
-            f = {'name': payment_name, 'payment_type_name': payment_type_name}
+            f = {'name': payment_name, 'payment_type': payment_type_name}
             Payment.update_or_new(f, name=payment_name, payment_type_name=payment_type_name)
             # 载入这一行数据
             p_f[payment_name] = (self.get_cell_value(row, col, int), self.get_cell_value(row, col+1, int))
@@ -62,5 +62,5 @@ class Income2Form(ToForm, ABC):
 
 
 if __name__ == '__main__':
-    a = Income2Form('xls/testData.xls')
+    a = Income2Form('xls/test_income.xls')
     a.read_page()

@@ -4,7 +4,7 @@ from .mongo import Mongo
 class Payment(Mongo):
     __fields__ = Mongo.__fields__ + [
         ('name', str, ''),
-        ('payment_type_name', str, ''),
+        ('payment_type', str, ''),
     ]
 
     def __repr__(self):
