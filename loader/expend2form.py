@@ -1,7 +1,6 @@
 from abc import ABC
 
 from models.expend import Expend
-from utils import *
 from models.resource import Resource
 from toForm import ToForm
 
@@ -72,11 +71,10 @@ class Expend2Form(ToForm, ABC):
                                resource_type=resource_type_name)
 
         f = {**basic_form, **resource_form}
-        a = Expend.update_or_new(f,
-                                 date=f['date'],
-                                 car=f['car'],
-                                 route=f['route'])
-        print(a)
+        Expend.update_or_new(f,
+                             date=f['date'],
+                             car=f['car'],
+                             route=f['route'])
 
 
 if __name__ == '__main__':

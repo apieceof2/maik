@@ -36,8 +36,15 @@ TEST_CONFIG = dict(
     TITLE_ROW=3,
 )
 
+STATISTIC_DISPATCH = dict(
+    Statistic="test.xls"
+
+)
+
 config = {
     'Income2Form': INCOME_CONFIG,
     'Expend2Form': EXPEND_CONFIG,
     'ToForm': TEST_CONFIG,
+    'OUTPUT_DIR': 'output',
+    'TEMPLATES_DIR': 'data_templates',
 }
