@@ -9,15 +9,14 @@ class Statistic:
     这是一个基类, 继承的子类根据自己的类名查找template文件, 通过template生成文件
     """
     def __init__(self):
-        from config import CONFIG_DISPATCHER
-        config = CONFIG_DISPATCHER.get(self.__class__.__name__)
+        self.config = self._get_config()
         self.templates = self._get_templates()
         self.filename = self.__class__.__name__ + '.xls'
-        self.output_path = config.get('output_path')
+        self.output_path = self.config.get('output_path')
         self.filepath = os.path.join(self.output_path, self.filename)
 
         # 空文件, 用于xlutils 复制
-        empty = xlrd.open_workbook(config.get('empty_path'))
+        empty = xlrd.open_workbook(self.config.get('empty_path'))
         self.output_book = xlutils.copy.copy(empty)
 
         # style
@@ -36,6 +35,15 @@ class Statistic:
         from config import TEMPLATE_DISPATCHER
         return TEMPLATE_DISPATCHER[cls.__name__]
 
+    @classmethod
+    def _get_config(cls):
+        """
+        根据类名获得config
+        :return:
+        """
+        from config import CONFIG_DISPATCHER
+        return CONFIG_DISPATCHER[cls.__name__]
+
     def get_data(self, sheet_name):
         """
         根据类名, sheet名取得获得数据的方法并返回
@@ -43,15 +51,21 @@ class Statistic:
         :return: 一个方法, 用于获得数据
         """
         # 这个函数要在子类中重写, 这里用作测试
-        data = [
-            (0, 0, 1),
-            (0, 1, 2),
-            (0, 2, 3),
-            (0, 3, 4),
-            (0, 4, 4),
-            (0, 5, 5),
-            (0, 6, 6)
-        ]
+        data = {
+            'vars': {
+                'duration': '2020-2012'
+            },
+            'data': [
+                (0, 0, 1),
+                (0, 1, 2),
+                (0, 2, 3),
+                (0, 3, 4),
+                (0, 4, 4),
+                (0, 5, 5),
+                (0, 6, 6)
+            ]
+        }
+
         return data
 
     def _output_sheet(self, sheet_index, data):
@@ -94,9 +108,17 @@ class Statistic:
         for title in template.get('titles'):
             sheet.write(title[0] + offset, title[1], title[2], self.style)
 
-        # 写入数据
+        # 获得数据
         data = self.get_data(sheet_name)
         data_offset = offset + template.get('start_row')
+        # 写入变量
+        vars = data['vars']
+        for key, value in vars.items():
+            row = template['vars'][key][0]
+            col = template['vars'][key][1]
+            sheet.write(offset + row, col, value, self.style)
+        # 写入数据
+        data = data['data']
         for cell in data:
             sheet.write(data_offset + cell[0], cell[1], cell[2], self.style)
 
@@ -136,6 +158,13 @@ class Statistic:
         导出templates中所有template代表的文件
         :return:
         """
+
+        # 删除导出目录中的表
+        files = os.listdir(self.config.get('output_path'))
+        for file in files:
+            filepath = os.path.join(self.config.get('output_path'), file)
+            os.remove(filepath)
+
         for index in range(0, len(self.templates)):
             self.output_sheet_by_index(index)
 

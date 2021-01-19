@@ -1,6 +1,9 @@
 templates = [{
         'name': 'test_sheet1',
         'start_row': 4,
+        'vars': {
+            'duration': (1, 0)
+        },
         'merges': [
             (0, 0, 0, 10),
             (1, 1, 0, 10),
@@ -14,7 +17,6 @@ templates = [{
         ],
         "titles": [
             (0, 0, '营收及人次报表'),
-            (1, 0, '$duration'),
             (2, 0, '序号'),
             (2, 1, '线路'),
             (2, 2, '线路车辆数'),
