@@ -36,10 +36,6 @@ TEST_CONFIG = dict(
     TITLE_ROW=3,
 )
 
-STATISTIC_DISPATCH = dict(
-    Statistic="test.xls"
-
-)
 
 config = {
     'Income2Form': INCOME_CONFIG,
