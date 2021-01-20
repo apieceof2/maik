@@ -27,11 +27,6 @@ class Statistic:
         self.style.alignment.horz = 0x02
         self.style.alignment.vert = 0x01
 
-        # 是否需要加行号
-        self.add_number = False
-
-
-
     @classmethod
     def _get_templates(cls):
         """
@@ -50,14 +45,16 @@ class Statistic:
         from config import CONFIG_DISPATCHER
         return CONFIG_DISPATCHER[cls.__name__]
 
-    def get_data(self, sheet_name):
+    def get_data(self, sheet_name, row_number=False):
         """
         根据类名, sheet名取得获得数据的方法并返回
+        :type row_number: bool
+        :param row_number:
         :param sheet_name: template中一个sheet_name的名称
         :return: 一个方法, 用于获得数据
         """
         from routes.decorator import routes
-        data = routes[self.__class__.__name__ + '_' + sheet_name](add_number=self.add_number)
+        data = routes[self.__class__.__name__ + '_' + sheet_name](row_number=row_number)
         return data
 
     def _output_sheet(self, sheet_index, data):
@@ -101,21 +98,24 @@ class Statistic:
             sheet.write(title[0] + offset, title[1], title[2], self.style)
 
         # 获得数据
-        data = self.get_data(sheet_name)
+        data = self.get_data(sheet_name, row_number=template.get('row_number'))
         data_offset = offset + template.get('start_row')
+
         # 写入变量
         vars = data['vars']
         for key, value in vars.items():
             row = template['vars'][key][0]
             col = template['vars'][key][1]
             sheet.write(offset + row, col, value, self.style)
+
         # 写入数据
         data = data['data']
         for cell in data:
+            print(cell)
             sheet.write(data_offset + cell[0], cell[1], cell[2], self.style)
 
         self.output_book.save(self.filepath)
-        print(self.filename + " : " + sheet_name + ' >>> done')
+        print(self.filepath + " : " + sheet_name + ' >>> done')
 
     def output_sheet_by_name(self, sheet_name):
         """

@@ -4,6 +4,7 @@ templates = [{
         'vars': {
             'duration': (1, 0)
         },
+        'row_number': True,
         'merges': [
             (0, 0, 0, 10),
             (1, 1, 0, 10),

@@ -4,11 +4,10 @@ from routes.income_routes import *
 
 
 class IncomeSta(Statistic):
-    def __init__(self, add_number=False):
+    def __init__(self):
         super(IncomeSta, self).__init__()
-        self.add_number = add_number
 
 
 if __name__ == '__main__':
-    i = IncomeSta(add_number=True)
+    i = IncomeSta()
     i.output_sheet_by_index(0)

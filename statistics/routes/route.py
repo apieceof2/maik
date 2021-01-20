@@ -26,9 +26,11 @@ class Route:
         for key, values in q.items():
             col = 0
             for v in values:
-                res.append((row, col, v))
+                tri = (row, col, v)
+                res.append(tri)
+                col += 1
+            row += 1
         return res
-
 
     @staticmethod
     def _aggregation_func(q):
@@ -39,7 +41,7 @@ class Route:
         """
         return [len(q)]
 
-    def __call__(self, add_number=False, duration=None):
+    def __call__(self, row_number=False, duration=None):
         """
         返回数据, 如果需要则加入序号
         :param add_number:
@@ -48,7 +50,7 @@ class Route:
         :return:
         """
         self.data['data'] = self._get_data(duration)
-        if add_number:
+        if row_number:
             self.add_number()
         return self.data
 
