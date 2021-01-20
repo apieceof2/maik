@@ -133,17 +133,44 @@ class Mongo(object):
         return m
 
     @classmethod
-    def aggregate(cls, func, key):
+    def is_in_duration(cls, duration, date):
+        """
+        通过一个名为duration 的tuple, 判断是否在日期内
+        :param date:
+        :param duration: (start, end)
+        :return: bool
+        """
+        if duration:
+            if duration[0] <= date <= duration[1]:
+                return True
+            else:
+                return False
+        else:
+            return True
+
+    @classmethod
+    def aggregate(cls, func, key, duration=None):
+        """
+        聚合, 如果有duration, 则限制日期内的范围
+        :param func:
+        :param key:
+        :param duration: (start_data, end_date)
+        :return:
+        """
         res = {}
         query = cls.find_all()
         for item in query:
             if getattr(item, key, '') not in res:
                 res[getattr(item, key, '')] = []
-            res[getattr(item, key, '')].append(item)
-
+            if hasattr(item, 'date'):
+                if cls.is_in_duration(duration, item.date):
+                    res[getattr(item, key, '')].append(item)
+            else:
+                res[getattr(item, key, '')].append(item)
+        r = {}
         for key, value in res.items():
-            res[key] = func(value)
-        return res
+            r[key] = func(value)
+        return r
 
     # @classmethod
     # def aggregate(cls, func1, func2):

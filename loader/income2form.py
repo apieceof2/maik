@@ -1,5 +1,5 @@
 from abc import ABC
-from toForm import ToForm
+from .toForm import ToForm
 from models.payment import Payment
 from models.paymentType import PaymentType
 from models.income import Income
@@ -41,18 +41,19 @@ class Income2Form(ToForm, ABC):
             # 建立数据库关系
             name = self.get_cell_value(payment_type_row, col, t=str)
             if name:
-                payment_type_name = name
+                payment_type_name = self.strip_space(name)
             f = {'name': payment_type_name}
             PaymentType.update_or_new(f, name=payment_type_name)
-            payment_name = self.get_cell_value(title_row, col, t=str)
+            payment_name = self.strip_space(self.get_cell_value(title_row, col, t=str))
             if not payment_name:
-                payment_name = payment_type_name + '#'
+                payment_name = payment_type_name + '@'
             if payment_name == '合计':
                 payment_name = payment_type_name + payment_name
             f = {'name': payment_name, 'payment_type': payment_type_name}
-            Payment.update_or_new(f, name=payment_name, payment_type_name=payment_type_name)
+            Payment.update_or_new(f, name=payment_name, payment_type=payment_type_name)
+
             # 载入这一行数据
-            p_f[payment_name] = (self.get_cell_value(row, col, int), self.get_cell_value(row, col + 1, t=int))
+            p_f[payment_name] = (self.get_cell_value(row, col, int), self.get_cell_value(row, col + 1, t=float))
 
         income_form = {**basic_form, **p_f}
         Income.update_or_new(income_form,

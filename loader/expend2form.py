@@ -2,7 +2,7 @@ from abc import ABC
 
 from models.expend import Expend
 from models.resource import Resource
-from toForm import ToForm
+from .toForm import ToForm
 
 
 class Expend2Form(ToForm, ABC):
@@ -76,7 +76,3 @@ class Expend2Form(ToForm, ABC):
                              car=f['car'],
                              route=f['route'])
 
-
-if __name__ == '__main__':
-    a = Expend2Form('xls/test_expend.xls')
-    a.read_page()

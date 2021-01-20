@@ -3,6 +3,9 @@ import xlutils.copy
 import xlrd
 import xlwt
 
+# 装饰器的导入, 不能删除
+from routes.test_routes import *
+
 
 class Statistic:
     """
@@ -23,6 +26,9 @@ class Statistic:
         self.style = xlwt.XFStyle()
         self.style.alignment.horz = 0x02
         self.style.alignment.vert = 0x01
+
+        # 是否需要加行号
+        self.add_number = False
 
 
 
@@ -50,22 +56,8 @@ class Statistic:
         :param sheet_name: template中一个sheet_name的名称
         :return: 一个方法, 用于获得数据
         """
-        # 这个函数要在子类中重写, 这里用作测试
-        data = {
-            'vars': {
-                'duration': '2020-2012'
-            },
-            'data': [
-                (0, 0, 1),
-                (0, 1, 2),
-                (0, 2, 3),
-                (0, 3, 4),
-                (0, 4, 4),
-                (0, 5, 5),
-                (0, 6, 6)
-            ]
-        }
-
+        from routes.decorator import routes
+        data = routes[self.__class__.__name__ + '_' + sheet_name](add_number=self.add_number)
         return data
 
     def _output_sheet(self, sheet_index, data):
@@ -171,7 +163,7 @@ class Statistic:
 
 if __name__ == '__main__':
     a = Statistic()
-    a.output_sheet_by_index(0)
+    a.output_all()
 
 
 

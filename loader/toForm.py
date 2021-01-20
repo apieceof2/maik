@@ -1,6 +1,6 @@
 from abc import abstractmethod, ABCMeta
-
 import xlrd
+import os
 
 
 def open_excel(filename):
@@ -14,7 +14,7 @@ class ToForm:
     @classmethod
     def get_config(cls):
         # 用类名将config载入
-        from Config import config
+        from .config import config
         config = config.get(cls.__name__, None)
         if config:
             return config
@@ -23,13 +23,16 @@ class ToForm:
             # todo: 这里检错
 
     def __init__(self, filename):
-        # 打开文件
-        self.sheet = open_excel(filename)
 
         # 将设置中的参数载入init
         config = self.get_config()
         for key, value in config.items():
             setattr(self, str.lower(key), value)
+
+        # 打开文件
+        filepath = getattr(self, 'load_path')
+        filepath = os.path.join(filepath, filename)
+        self.sheet = open_excel(filename)
 
         # 确定有start_row 和 end_row
         start = getattr(self, 'start_row', 0)
@@ -39,6 +42,8 @@ class ToForm:
         end = getattr(self, 'end_row', 0)
         if not end:
             setattr(self, 'end_row', self.get_end_row())
+
+
 
     def get_cell_value(self, row, col, t=None):
         # 获得这张表row行, col列的数据,并且保证type为t, 转型
@@ -69,6 +74,17 @@ class ToForm:
         # 将整整一张表载入数据库
         for row in range(getattr(self, 'start_row', 0), getattr(self, 'end_row', 0)):
             self.read_line(row)
+
+    @staticmethod
+    def strip_space(s):
+        res = ""
+        if s:
+            l = s.split(' ')
+            for i in l:
+                res += i
+        return res
+
+
 
 
 

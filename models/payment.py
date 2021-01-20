@@ -8,4 +8,4 @@ class Payment(Mongo):
     ]
 
     def __repr__(self):
-        return '[ ' + getattr(self, 'payment_name', '') + ' , ' + getattr(self, 'payment_type_name', '') + ' ]'
+        return '[ ' + getattr(self, 'payment_type', '') + ' , ' + getattr(self, 'name', '') + ' ]'
