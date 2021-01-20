@@ -10,4 +10,4 @@ class IncomeSta(Statistic):
 
 if __name__ == '__main__':
     i = IncomeSta()
-    i.output_sheet_by_index(0)
+    i.output_sheet_by_index(1)

@@ -51,7 +51,12 @@ class Mongo(object):
         return m
 
     @classmethod
-    def _find(cls, **kwargs):
+    def _find(cls, duration=None, **kwargs):
+        """
+        :param duration: 如果有duration的话, 只查找duration区间内的
+        :param kwargs:
+        :return:
+        """
         # 类内部最基础的查找数据的方法
         name = cls.__name__
         flag_sort = '__sort'
@@ -60,7 +65,15 @@ class Mongo(object):
         ds = mongo.db[name].find(kwargs)
         if sort is not None:
             ds = ds.sort(sort)
-        query_list = [cls.make_object(i) for i in ds]
+        query_list = []
+        if not duration:
+            query_list = [cls.make_object(i) for i in ds]
+        else:
+            for i in ds:
+                date = i.get('date')
+                print(date)
+                if cls.is_in_duration(duration, date):
+                    query_list.append(cls.make_object(i))
         return query_list
 
     @classmethod
@@ -103,23 +116,23 @@ class Mongo(object):
         self.save()
 
     @classmethod
-    def find_one(cls, **kwargs):
-        a = cls._find(**kwargs)
+    def find_one(cls, duration=None, **kwargs):
+        a = cls._find(duration, **kwargs)
         if a:
             return a[0]
 
     @classmethod
-    def find_by(cls, **kwargs):
+    def find_by(cls, duration=None, **kwargs):
         # 通过_find找到所有符合要求的数据返回
-        return cls._find(**kwargs)
+        return cls._find(duration**kwargs)
 
     @classmethod
     def find_all(cls):
         return cls._find()
 
     @classmethod
-    def find_by_id(cls, id):
-        return cls.find_by(_id=ObjectId(id))[0]
+    def find_by_id(cls, id, duration=None):
+        return cls.find_by(duration, _id=ObjectId(id))[0]
 
     @classmethod
     def update_or_new(cls, form, **kwargs):
@@ -145,8 +158,8 @@ class Mongo(object):
                 return True
             else:
                 return False
-        else:
-            return True
+
+        return True
 
     @classmethod
     def aggregate(cls, func, key, duration=None):

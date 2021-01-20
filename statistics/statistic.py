@@ -45,23 +45,22 @@ class Statistic:
         from config import CONFIG_DISPATCHER
         return CONFIG_DISPATCHER[cls.__name__]
 
-    def get_data(self, sheet_name, row_number=False):
+    def get_data(self, table_name, row_number=False):
         """
         根据类名, sheet名取得获得数据的方法并返回
         :type row_number: bool
         :param row_number:
-        :param sheet_name: template中一个sheet_name的名称
+        :param table_name: template中一个sheet_name的名称
         :return: 一个方法, 用于获得数据
         """
         from routes.decorator import routes
-        data = routes[self.__class__.__name__ + '_' + sheet_name](row_number=row_number)
+        data = routes[self.__class__.__name__ + '_' + table_name](row_number=row_number)
         return data
 
-    def _output_sheet(self, sheet_index, data):
+    def _output_sheet(self, sheet_index):
         """
         把数据输出到一个表中
         :param sheet_index: int 表格所在的sheet的序号
-        :param data: 这个表格的数据 是一个list, 其中是三元组(row, col, value)
         """
 
         # 查看文件夹是否存在, 如果没有则新建
@@ -74,7 +73,8 @@ class Statistic:
 
         # 通过template中的信息, 查看sheet是否存在, 如果存在, 设置offset
         # 否则, 新建一个sheet 设置offset = 0
-        sheet_name = template.get('name')
+        sheet_name = template.get('sheet_name')
+        table_name = template.get('table_name')
         offset = 0
         sheet = None
 
@@ -98,7 +98,7 @@ class Statistic:
             sheet.write(title[0] + offset, title[1], title[2], self.style)
 
         # 获得数据
-        data = self.get_data(sheet_name, row_number=template.get('row_number'))
+        data = self.get_data(table_name, row_number=template.get('row_number'))
         data_offset = offset + template.get('start_row')
 
         # 写入变量
@@ -111,21 +111,20 @@ class Statistic:
         # 写入数据
         data = data['data']
         for cell in data:
-            print(cell)
             sheet.write(data_offset + cell[0], cell[1], cell[2], self.style)
 
         self.output_book.save(self.filepath)
         print(self.filepath + " : " + sheet_name + ' >>> done')
 
-    def output_sheet_by_name(self, sheet_name):
+    def output_sheet_by_name(self, table_name):
         """
         通过 sheet_name 导出文件
-        :param sheet_name:
+        :param tab;e_name:
         """
-        data = self.get_data(sheet_name)
+        data = self.get_data(table_name)
         index = -1
         for template_index in range(0, len(self.templates)):
-            if self.templates[template_index].get('name') == sheet_name:
+            if self.templates[template_index].get('table_name') == table_name:
                 index = template_index
         if index == -1:
             raise Exception(print('没有这个sheet'))
@@ -141,9 +140,9 @@ class Statistic:
         if index > len(self.templates) - 1:
             raise Exception(print("没有这个sheet(超出范围)"))
         else:
-            sheet_name = self.templates[index].get('name')
-            data = self.get_data(sheet_name)
-            self._output_sheet(index, data)
+            table_name = self.templates[index].get('table_name')
+            data = self.get_data(table_name)
+            self._output_sheet(index)
 
     def output_all(self):
         """

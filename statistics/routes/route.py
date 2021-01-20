@@ -9,6 +9,7 @@ class Route:
         from models.mongo import Mongo
         self.DB = Mongo
         self.aggregation_key = 'route'
+        self.is_aggregate = False
 
     def _get_data(self, duration=None):
         """
@@ -17,23 +18,31 @@ class Route:
         :param duration:
         :return:
         """
-        # 获得聚合
-        q = self.DB.aggregate(self._aggregation_func, self.aggregation_key, duration)
-
-        # 聚合结果变为三元组
         res = []
-        row = 0
-        for key, values in q.items():
-            col = 0
-            for v in values:
-                tri = (row, col, v)
-                res.append(tri)
-                col += 1
-            row += 1
+        # 获得聚合
+        if self.is_aggregate:
+            # 如果结果是聚合来的
+            q = self.DB.aggregate(self._aggregation_func, self.aggregation_key, duration)
+            # 聚合结果变为三元组
+            row = 0
+            for key, values in q.items():
+                col = 0
+                for v in values:
+                    tri = (row, col, v)
+                    res.append(tri)
+                    col += 1
+                row += 1
+        else:
+            # 如果结果是手动来的
+            q = self.DB.find_by(duration=duration)
+            res = self._get_tri_data(q)
         return res
 
-    @staticmethod
-    def _aggregation_func(q):
+    def _get_tri_data(self, q):
+
+        return []
+
+    def _aggregation_func(self, q):
         """
         聚合用的函数, 子类重写
         :param q:
@@ -71,5 +80,19 @@ class Route:
         # 添加行号
         for i in range(0, row + 1):
             data.append((i, 0, i + 1))
-
+        print(data)
         self.data['data'] = data
+
+    @staticmethod
+    def sum_by_key(q, key, t):
+        """
+        用把q中所有对象的key值加起来
+        :param t: 类型转换
+        :param q: list->model
+        :param key: str, model 的键值
+        :return: int 或者float
+        """
+        sum = 0.0
+        for i in q:
+            sum += getattr(i, key, 0)
+        return t(sum)
