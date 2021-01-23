@@ -25,6 +25,7 @@ EXPEND_CONFIG = dict(
     RESOURCE_START_COL=3,
     DATE_ROW=1,
     TITLE_ROW=3,
+    LOAD_PATH='files/expend_xls'
 )
 
 TEST_CONFIG = dict(

@@ -10,5 +10,5 @@ class IncomeSta(Statistic):
 
 if __name__ == '__main__':
     duration = ('2021.01.02', '2021.01.02')
-    i = IncomeSta('sheet6_table1.json', duration=duration)
+    i = IncomeSta('sheet10_table1.json', duration=duration)
     i._output_sheet()

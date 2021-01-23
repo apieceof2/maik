@@ -32,7 +32,7 @@ class ToForm:
         # 打开文件
         filepath = getattr(self, 'load_path')
         filepath = os.path.join(filepath, filename)
-        self.sheet = open_excel(filename)
+        self.sheet = open_excel(filepath)
 
         # 确定有start_row 和 end_row
         start = getattr(self, 'start_row', 0)

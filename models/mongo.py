@@ -71,7 +71,6 @@ class Mongo(object):
         else:
             for i in ds:
                 date = i.get('date')
-                print(date)
                 if cls.is_in_duration(duration, date):
                     query_list.append(cls.make_object(i))
         return query_list

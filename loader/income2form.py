@@ -63,5 +63,5 @@ class Income2Form(ToForm, ABC):
 
 
 if __name__ == '__main__':
-    a = Income2Form('xls/test_income.xls')
+    a = Income2Form('../files/income_xls/test_income.xls')
     a.read_page()

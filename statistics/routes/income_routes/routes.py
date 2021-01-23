@@ -7,6 +7,10 @@ from statistics.routes.income_routes.sheet3_table1 import IncomeSheet3Table1
 from statistics.routes.income_routes.sheet4_table1 import IncomeSheet4Table1
 from statistics.routes.income_routes.sheet5_table1 import IncomeSheet5Table1
 from statistics.routes.income_routes.sheet6_table1 import IncomeSheet6Table1
+from statistics.routes.income_routes.sheet7_table1 import IncomeSheet7Table1
+from statistics.routes.income_routes.sheet8_table1 import IncomeSheet8Table1
+from statistics.routes.income_routes.sheet9_table1 import IncomeSheet9Table1
+from statistics.routes.income_routes.sheet10_table1 import IncomeSheet10Table1
 
 
 ROUTES_MAPPING = {
@@ -19,5 +23,9 @@ ROUTES_MAPPING = {
     'sheet4_table1': IncomeSheet4Table1('sheet4_table1'),
     'sheet5_table1': IncomeSheet5Table1('sheet5_table1'),
     'sheet6_table1': IncomeSheet6Table1('sheet6_table1'),
+    'sheet7_table1': IncomeSheet7Table1('sheet7_table1'),
+    'sheet8_table1': IncomeSheet8Table1('sheet8_table1'),
+    'sheet9_table1': IncomeSheet9Table1('sheet9_table1'),
+    'sheet10_table1': IncomeSheet10Table1('sheet10_table1'),
 }
 

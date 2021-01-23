@@ -71,6 +71,64 @@ class Income(Mongo):
             sum += value
         return sum
 
+    def people_sum_by_payment_type(self, payment_type_name):
+        """
+        sum the number of people by payment_type_name
+        :param payment_name:
+        :param kwargs:
+        :return:
+        """
+        res = 0
+        from models.payment import Payment
+        payments = Payment.find_by(payment_type=payment_type_name)
+        for payment in payments:
+            if payment.name == payment.payment_type + '合计':
+                continue
+            t = getattr(self, getattr(payment, 'name'))[0]
+            if not t:
+                t = 0
+            res += t
+        return res
+
+    def value_sum_by_payment_type(self, payment_type_name):
+        """
+        sum of the value of people by payment_type_name
+        :param payment_type_name:
+        :return:
+        """
+        res = 0
+        from models.payment import Payment
+        payments = Payment.find_by(payment_type=payment_type_name)
+        for payment in payments:
+            if payment.name == payment.payment_type + '合计':
+                continue
+            payment_name = getattr(payment, 'name')
+            t = getattr(self, getattr(payment, 'name'))[1]
+            if not t:
+                t = 0
+            res += t
+        return res
+
+    def value_by_key(self, key):
+        t = getattr(self, key)
+        if not t:
+            t = 0
+        return t
+
+    def payment_value_by_key(self, key):
+        t = getattr(self, key)[1]
+        if not t:
+            t = 0
+        return t
+
+    def payment_num_by_key(self, key):
+        t = getattr(self, key)[0]
+        if not t:
+            t = 0
+        return t
+
+
+
 
 
 

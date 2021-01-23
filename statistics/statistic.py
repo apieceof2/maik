@@ -102,7 +102,6 @@ class Statistic:
             sheet.merge(merge[0] + offset, merge[1] + offset, merge[2], merge[3])
         # 写入表头
         for title in template.get('titles'):
-            print(title)
             sheet.write(title[0] + offset, title[1], title[2], self.style)
 
         # 获得数据

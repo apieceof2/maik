@@ -146,6 +146,8 @@ def sheet9_table1_merge():
         [3, 4, 3, 3]
     ]
 
+
 if __name__ == '__main__':
-    get_cells("C:/Users/Administrator/Desktop/income2.xls", 3, start_row=0, end_row=5, start_col=0, end_col=19)
+    get_cells("C:/Users/Administrator/Desktop/expense.xls", 0,
+              start_row=0, end_row=5, start_col=0, end_col=5)
     # sheet3_table1_merge()

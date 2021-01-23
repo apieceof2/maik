@@ -1,5 +1,6 @@
 import xlrd
 
+
 def get_value(sheet):
     """
     从sheet中获得所有单元格的数据组成元组(row, col, value),
