@@ -1,15 +1,14 @@
-from .decorator import update_route
 from models.income import Income
-from .route import Route
+from statistics.routes.router import Router
 from models.payment import Payment
 
 
-@update_route('IncomeSta_线路营收及人次报表')
-class IncomeSheet1(Route):
-    def __init__(self):
+class IncomeSheet1Table1(Router):
+    def __init__(self, table_name):
+        super().__init__(table_name)
         self.data = {
             'vars': {
-                'duration': '2012'
+                'duration': ''
             },
             'data': []
         }
@@ -50,6 +49,8 @@ class IncomeSheet1(Route):
         # 实体卡金额, 银联人次, 银联金额, 总人次, 总营收
 
         # 好算的基本数据
+        if not q:
+            return []
         res = [
             q[0].route, # lm
             len(q),
@@ -70,27 +71,8 @@ class IncomeSheet1(Route):
         all_value = res[3] + res[5] + res[7]
         res.append(all_num)
         res.append(all_value)
-
         return res
 
-
-@update_route("IncomeSta_营收及人次汇总报表")
-class IncomeStaSheet2(Route):
-    def __init__(self):
-        self.data = {
-            'vars': {
-                'duration': '2012'
-            },
-            'data': [
-            ]
-        }
-        self.DB = Income
-        self.aggregation_key = 'route'
-        self.is_aggregate = False
-
-    def _get_tri_data(self, q):
-        from models.income import Income
-        data = [
-            (0, 2, 'haha'),
-        ]
+    def _get_tri_data(self, q, start_row):
+        data = [(0 + start_row, 0, '小计')]
         return data

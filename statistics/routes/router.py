@@ -1,15 +1,22 @@
-class Route:
-    def __init__(self):
+class Router:
+    """
+    添加一个Router需要三步
+    1. 用table_name写一个json模板
+    2. 继承本Router, table_name为模板名称(没有.xls后缀), 需要重写self._aggregateion_func()
+       和self._get_tri_data() "分别为
+    3. 把写好的类写入routes_mapping中
+    """
+    def __init__(self, table_name):
         self.data = {
             'vars': {
                 'duration': '2012'
             },
             'data': []
         }
+        self.table_name = table_name
         from models.mongo import Mongo
         self.DB = Mongo
         self.aggregation_key = 'route'
-        self.is_aggregate = False
 
     def _get_data(self, duration=None):
         """
@@ -20,26 +27,34 @@ class Route:
         """
         res = []
         # 获得聚合
-        if self.is_aggregate:
-            # 如果结果是聚合来的
-            q = self.DB.aggregate(self._aggregation_func, self.aggregation_key, duration)
-            # 聚合结果变为三元组
-            row = 0
-            for key, values in q.items():
-                col = 0
-                for v in values:
-                    tri = (row, col, v)
-                    res.append(tri)
-                    col += 1
-                row += 1
-        else:
-            # 如果结果是手动来的
-            q = self.DB.find_by(duration=duration)
-            res = self._get_tri_data(q)
+        q = self.DB.aggregate(self._aggregation_func, self.aggregation_key, duration)
+
+        # 计算聚合的到的数据有多少条
+        end_row = len(q)
+
+        # 聚合结果变为三元组
+        row = 0
+        for key, values in q.items():
+            col = 0
+            for v in values:
+                tri = (row, col, v)
+                res.append(tri)
+                col += 1
+            row += 1
+
+        # 手动填入的数据, 手动填入的数据从聚合数据之后填入
+        q = self.DB.find_by(duration=duration)
+        res += self._get_tri_data(q, start_row=end_row)
         return res
 
-    def _get_tri_data(self, q):
+    def _get_tri_data(self, q, start_row=0):
+        """
 
+        :param q:
+        :param start_row:
+        :type start_row: int
+        :return:
+        """
         return []
 
     def _aggregation_func(self, q):
@@ -58,12 +73,16 @@ class Route:
         :param kwargs:
         :return:
         """
+        if duration:
+            self.data['vars']['duration'] = duration[0] + '-' + duration[1]
+        else:
+            self.data['vars']['duration'] = "全部"
         self.data['data'] = self._get_data(duration)
         if row_number:
-            self.add_number()
+            self._add_number()
         return self.data
 
-    def add_number(self):
+    def _add_number(self):
         """
         给self.data['data']的所有项目第一行加上序号
         :return:
@@ -80,7 +99,6 @@ class Route:
         # 添加行号
         for i in range(0, row + 1):
             data.append((i, 0, i + 1))
-        print(data)
         self.data['data'] = data
 
     @staticmethod

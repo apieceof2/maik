@@ -124,7 +124,7 @@ class Mongo(object):
     @classmethod
     def find_by(cls, duration=None, **kwargs):
         # 通过_find找到所有符合要求的数据返回
-        return cls._find(duration**kwargs)
+        return cls._find(duration, **kwargs)
 
     @classmethod
     def find_all(cls):
