@@ -36,8 +36,8 @@ class Statistic:
         self.duration = duration
 
         # 获得routes
-        from statistics.routes.routes_mapping import ROUTES_MAPPING
-        self.routes = ROUTES_MAPPING
+        from statistics.routes.routes_mapping import routes_mapping
+        self.routes = routes_mapping
 
     @classmethod
     def _get_templates(cls, template_path):
@@ -67,7 +67,7 @@ class Statistic:
         :param table_name: template中一个sheet_name的名称
         :return: 一个方法, 用于获得数据
         """
-        data = self.routes[table_name](row_number=row_number, duration=self.duration)
+        data = self.routes(table_name)(row_number=row_number, duration=self.duration)
         return data
 
     def _output_sheet(self):
