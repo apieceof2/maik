@@ -9,6 +9,12 @@ class Expend(Mongo):
         ('route', str, ''),
     ]
 
+    def get_by_key(self, key):
+        t = getattr(self, key)
+        if not t:
+            return ''
+        return t
+
     def get_resource(self, resource_name, index):
         """
         获得某一个reousrce下的第index个键值

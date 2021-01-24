@@ -4,8 +4,8 @@ from models.payment import Payment
 
 
 class IncomeSheet8Table1(Router):
-    def __init__(self, table_name):
-        super().__init__(table_name)
+    def __init__(self):
+        super().__init__()
         self.DB = Income
         self.aggregation_key = 'route'
 

@@ -3,8 +3,8 @@ from statistics.routes.router import Router
 
 
 class IncomeSheet3Table1(Router):
-    def __init__(self, table_name):
-        super().__init__(table_name)
+    def __init__(self):
+        super().__init__()
         self.DB = Income
         self.aggregation_key = 'route'
 
@@ -34,6 +34,3 @@ class IncomeSheet3Table1(Router):
         a = Income.aggregate(self._aggregation_func, 'route')
         print(a)
 
-if __name__ == '__main__':
-    a = IncomeSheet3Table1('sheet3_table1')
-    a.test()

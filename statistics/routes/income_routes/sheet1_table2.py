@@ -4,8 +4,8 @@ from models.payment import Payment
 
 
 class IncomeSheet1Table2(Router):
-    def __init__(self, table_name):
-        super().__init__(table_name)
+    def __init__(self):
+        super().__init__()
         self.data = {
             'vars': {
                 'duration': '2012'

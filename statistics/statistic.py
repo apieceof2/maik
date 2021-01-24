@@ -8,15 +8,20 @@ class Statistic:
     """
     这是一个基类, 继承的子类根据自己的类名查找template文件, 通过template生成文件
     """
-    def __init__(self, template_path, duration=None):
+
+    def __init__(self, signature, duration=None):
+        """
+        :param signature: a str, like "sheet_template_name?key=value"
+        :param duration:
+        """
+
+        self.table_name = signature
         self.config = self._get_config()
-        self.table_name = template_path.split('.')[0]
-        template_path = os.path.join(self.config.get('json_path'), template_path)
+        template_path = os.path.join(self.config.get('json_path'), self.table_name.split('?')[0] + '.json')
         self.template = self._get_templates(template_path)
         self.filename = self.__class__.__name__ + '.xls'
         self.output_path = self.config.get('output_path')
         self.filepath = os.path.join(self.output_path, self.filename)
-
 
         # 空文件, 用于xlutils 复制
         empty = xlrd.open_workbook(self.config.get('empty_path'))
@@ -92,7 +97,7 @@ class Statistic:
                 sheet = book.sheet_by_name(sheet_name)
                 offset = sheet.nrows + 2
                 sheet = self.output_book.get_sheet(sheet_name)
-        except :
+        except:
             sheet = self.output_book.add_sheet(sheet_name)
             offset = 0
 
@@ -127,15 +132,3 @@ class Statistic:
 if __name__ == '__main__':
     a = Statistic('sheet1_table1.json')
     a._output_sheet()
-
-
-
-
-
-
-
-
-
-
-
-

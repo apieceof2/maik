@@ -2,9 +2,9 @@ from models.expend import Expend
 from statistics.routes.router import Router
 
 
-class ExpendSheet1Table1(Router):
+class ExpendSheet3Table1(Router):
     """
-    亿通加油站加油汇总
+    中石油加油汇总
     """
     def __init__(self, gus_type):
         super().__init__()
@@ -22,7 +22,7 @@ class ExpendSheet1Table1(Router):
 
     def _aggregation_func(self, q):
         """
-        亿通有点特别, 有亿通1, 亿通2两个字段, 需要整合起来
+        中石油
         :param q:
         :return:
         """
@@ -36,18 +36,11 @@ class ExpendSheet1Table1(Router):
         price = 0.0
         price_after_off = 0.0
         for i in q:
-            gus_type = i.get_resource('亿通（加油站）1', 0)
+            gus_type = i.get_resource('中石油（加油站）', 0)
             if gus_type == self.gus_type:
-                amount += i.get_resource('亿通（加油站）1', 2)
-                price += i.get_resource('亿通（加油站）1', 3)
-                price_after_off += i.get_resource('亿通（加油站）1', 4)
-        for i in q:
-            gus_type = i.get_resource('亿通（加油站）2', 0)
-
-            if gus_type == self.gus_type:
-                amount += i.get_resource('亿通（加油站）2', 2)
-                price += i.get_resource('亿通（加油站）2', 3)
-                price_after_off += i.get_resource('亿通（加油站）2', 4)
+                amount += i.get_resource('中石油（加油站）', 2)
+                price += i.get_resource('中石油（加油站）', 3)
+                price_after_off += i.get_resource('中石油（加油站）', 4)
         res.append(amount)
         res.append(price)
         res.append(price_after_off)

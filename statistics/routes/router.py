@@ -1,19 +1,18 @@
 class Router:
     """
     添加一个Router需要三步
-    1. 用table_name写一个json模板
-    2. 继承本Router, table_name为模板名称(没有.xls后缀), 需要重写self._aggregateion_func()
+    1. 写一个json模板
+    2. 继承本Router,需要重写self._aggregateion_func()
        和self._get_tri_data() "分别为
     3. 把写好的类写入routes_mapping中
     """
-    def __init__(self, table_name):
+    def __init__(self):
         self.data = {
             'vars': {
                 'duration': '2012'
             },
             'data': []
         }
-        self.table_name = table_name
         from models.mongo import Mongo
         self.DB = Mongo
         self.aggregation_key = 'route'
@@ -44,10 +43,10 @@ class Router:
 
         # 手动填入的数据, 手动填入的数据从聚合数据之后填入
         q = self.DB.find_by(duration=duration)
-        res += self._get_tri_data(q, start_row=end_row)
+        res += self._get_tri_data(start_row=end_row)
         return res
 
-    def _get_tri_data(self, q, start_row=0):
+    def _get_tri_data(self, start_row=0):
         """
 
         :param q:

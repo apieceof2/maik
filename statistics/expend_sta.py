@@ -10,5 +10,5 @@ class ExpendSta(Statistic):
 
 if __name__ == '__main__':
     duration = ('2021.01.01', '2021.01.02')
-    i = ExpendSta('sheet1_table1_20#.json', duration=duration)
+    i = ExpendSta('sheet9_table1', duration=duration)
     i._output_sheet()

@@ -137,7 +137,6 @@ def sheet9_table1_merge():
     res = [
         [0, 0, 0, 20],
         [1, 1, 0, 20],
-        [2, 2, 0, 1],
         [2, 2, 8, 14],
         [2, 2, 15, 18],
         [3, 4, 0, 0],
@@ -148,6 +147,6 @@ def sheet9_table1_merge():
 
 
 if __name__ == '__main__':
-    get_cells("C:/Users/Administrator/Desktop/expense.xls", 0,
-              start_row=0, end_row=5, start_col=0, end_col=5)
+    get_cells("C:/Users/Administrator/Desktop/expense.xls", 6,
+              start_row=0, end_row=3, start_col=0, end_col=4)
     # sheet3_table1_merge()
