@@ -18,7 +18,6 @@ class ExpendSheet13Table1(Router):
     def _aggregation_func(self, q):
         res = [
             getattr(q[0], 'route'),
-            # todo 这里的线路车辆数指什么
             len(q)
         ]
         p_sum = 0

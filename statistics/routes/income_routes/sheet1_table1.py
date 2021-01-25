@@ -18,6 +18,7 @@ class IncomeSheet1Table1(Router):
 
     @staticmethod
     def _sum_by_payment_type(q, payment_type_name):
+
         """
         统计某一个记录集合中某一个payment_type的人次, 金额
         :param q: model的list
@@ -57,7 +58,6 @@ class IncomeSheet1Table1(Router):
             self.sum_by_key(q, 'people_num_by_cash', int),
             self.sum_by_key(q, 'revenue', float),
         ]
-
         # payment_type合计
         card1 = self._sum_by_payment_type(q, '实体卡（IC卡）')
         card2 = self._sum_by_payment_type(q, '银联+天交通二维码')
@@ -73,6 +73,6 @@ class IncomeSheet1Table1(Router):
         res.append(all_value)
         return res
 
-    def _get_tri_data(self, q, start_row):
+    def _get_tri_data(self, q=None, start_row=0):
         data = [(0 + start_row, 0, '小计')]
         return data

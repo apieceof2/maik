@@ -28,12 +28,3 @@ class IncomeSheet2Table1(Router):
                 res.append(0)
                 res.append(0)
         return res
-
-    def test(self):
-        a = Income.aggregate(self._aggregation_func, 'cashier')
-
-
-
-if __name__ == '__main__':
-    a =IncomeSheet2Table1('sheet2_table1')
-    a.test()

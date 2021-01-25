@@ -56,7 +56,7 @@ class Statistic:
         根据类名获得config
         :return:
         """
-        from config import CONFIG_DISPATCHER
+        from statistics.config import CONFIG_DISPATCHER
         return CONFIG_DISPATCHER[cls.__name__]
 
     def _get_data(self, table_name, row_number=False):
@@ -70,7 +70,7 @@ class Statistic:
         data = self.routes(table_name)(row_number=row_number, duration=self.duration)
         return data
 
-    def _output_sheet(self):
+    def output_sheet(self):
         """
         把数据输出到一个表中
         """
@@ -86,7 +86,6 @@ class Statistic:
         # 通过template中的信息, 查看sheet是否存在, 如果存在, 设置offset
         # 否则, 新建一个sheet 设置offset = 0
         sheet_name = template.get('sheet_name')
-        table_name = template.get('table_name')
         offset = 0
         sheet = None
 
@@ -126,9 +125,4 @@ class Statistic:
             sheet.write(data_offset + cell[0], cell[1], cell[2], self.style)
 
         self.output_book.save(self.filepath)
-        print(self.filepath + " : " + sheet_name + ' >>> done')
 
-
-if __name__ == '__main__':
-    a = Statistic('sheet1_table1.json')
-    a._output_sheet()

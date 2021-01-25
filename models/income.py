@@ -23,7 +23,10 @@ class Income(Mongo):
         return sum of the revenue and variety kind of payment income
         :return: float
         """
-        return getattr(self, 'revenue', 0.0) + self.payment_sum()
+        t = getattr(self, 'revenue', 0.0)
+        if not t:
+            t = 0
+        return t + self.payment_sum()
 
     def payment_sum(self):
         """
@@ -47,7 +50,7 @@ class Income(Mongo):
 
     def income_num_sum(self):
         """
-        return the number of ] of all passager
+        return the number of  of all passager
         :return: int
         """
         return getattr(self, 'people_num_by_cash', 0) + self.payment_num_sum()

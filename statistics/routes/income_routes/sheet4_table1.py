@@ -29,8 +29,3 @@ class IncomeSheet4Table1(Router):
             res.append(num)
             res.append(value)
         return res
-
-    def test(self):
-        a = Income.aggregate(self._aggregation_func, 'route')
-        print(a)
-

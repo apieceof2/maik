@@ -144,6 +144,9 @@ class Mongo(object):
             m.update(form, hard=True)
         return m
 
+    def is_during(self, duration):
+        return self.is_in_duration(duration, getattr(self, 'date'))
+
     @classmethod
     def is_in_duration(cls, duration, date):
         """
@@ -161,6 +164,15 @@ class Mongo(object):
         return True
 
     @classmethod
+    def find_during(cls, duration):
+        a = cls.find_all()
+        res = []
+        for i in a:
+            if cls.is_in_duration(duration, getattr(i, 'date')):
+                res.append(i)
+        return res
+
+    @classmethod
     def aggregate(cls, func, key, duration=None):
         """
         聚合, 如果有duration, 则限制日期内的范围
@@ -170,15 +182,13 @@ class Mongo(object):
         :return:
         """
         res = {}
-        query = cls.find_all()
+        query = cls.find_during(duration)
         for item in query:
             if getattr(item, key, '') not in res:
                 res[getattr(item, key, '')] = []
-            if hasattr(item, 'date'):
-                if cls.is_in_duration(duration, item.date):
-                    res[getattr(item, key, '')].append(item)
-            else:
-                res[getattr(item, key, '')].append(item)
+
+            res[getattr(item, key, '')].append(item)
+
         r = {}
         for key, value in res.items():
             r[key] = func(value)

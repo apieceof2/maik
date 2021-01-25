@@ -6,7 +6,7 @@ class Router:
        和self._get_tri_data() "分别为
     3. 把写好的类写入routes_mapping中
     """
-    def __init__(self):
+    def __init__(self, **kwargs):
         self.data = {
             'vars': {
                 'duration': '2012'
@@ -42,18 +42,10 @@ class Router:
             row += 1
 
         # 手动填入的数据, 手动填入的数据从聚合数据之后填入
-        q = self.DB.find_by(duration=duration)
-        res += self._get_tri_data(start_row=end_row)
+        res += self._get_tri_data(q=q, start_row=end_row)
         return res
 
-    def _get_tri_data(self, start_row=0):
-        """
-
-        :param q:
-        :param start_row:
-        :type start_row: int
-        :return:
-        """
+    def _get_tri_data(self, q=None, start_row=0):
         return []
 
     def _aggregation_func(self, q):
@@ -62,7 +54,7 @@ class Router:
         :param q:
         :return:
         """
-        return [len(q)]
+        return []
 
     def __call__(self, row_number=False, duration=None):
         """
@@ -111,5 +103,14 @@ class Router:
         """
         sum = 0.0
         for i in q:
-            sum += getattr(i, key, 0)
+            a = getattr(i, key, 0)
+            if not a:
+                a = 0
+            sum += a
         return t(sum)
+
+    def get_duration(self):
+        t = self.data['vars']['duration']
+        t = t.split('-')
+        duration = [t[0], t[1]]
+        return duration

@@ -6,7 +6,7 @@ class ExpendSheet2Table1(Router):
     """
     中石化加油汇总
     """
-    def __init__(self, gus_type):
+    def __init__(self, gus_type='20#'):
         super().__init__()
         self.gus_type = gus_type
         self.data = {

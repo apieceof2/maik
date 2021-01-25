@@ -29,11 +29,3 @@ class IncomeSheet5Table1(Router):
             res.append(num)
             res.append(value)
         return res
-
-    def test(self):
-        a = Income.aggregate(self._aggregation_func, 'route')
-        print(a)
-
-if __name__ == '__main__':
-    a = IncomeSheet5Table1('sheet5_table1')
-    a.test()

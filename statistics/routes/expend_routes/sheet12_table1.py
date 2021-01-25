@@ -3,7 +3,7 @@ from statistics.routes.router import Router
 
 
 class ExpendSheet12Table1(Router):
-    def __init__(self, car):
+    def __init__(self, car='蒙K91877'):
         self.car = car
         super().__init__()
         self.data = {
@@ -20,9 +20,13 @@ class ExpendSheet12Table1(Router):
     def _aggregation_func(self, q):
         return []
 
-    def _get_tri_data(self, start_row=0):
+    def _get_tri_data(self, q=None, start_row=0):
         from models.expend import Expend
-        expends = Expend.find_by(car=self.car)
+        t = Expend.find_by(car=self.car)
+        expends = []
+        for expend in t:
+            if expend.is_during(self.get_duration()):
+                expends.append(expend)
         row = 0
         res = []
         for expend in expends:

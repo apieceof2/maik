@@ -16,10 +16,13 @@ from statistics.routes.expend_routes.sheet14_table1 import ExpendSheet14Table1
 
 def routes_mapping(signature):
     t = signature.split('?')
+    print(t)
     name = t[0]
     if len(t) > 1:
+        key = t[1].split('=')[0]
         value = t[1].split('=')[1]
-        return ROUTES_MAPPING[name](value)
+        arg = {key: value}
+        return ROUTES_MAPPING[name](**arg)
     else:
         return ROUTES_MAPPING[name]()
 

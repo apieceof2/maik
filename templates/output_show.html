@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>输出单个文件</title>
+</head>
+<body>
+<form method="POST" action="{{url_for('output')}}">
+    时间:<input name="start_date" value="2021.01.01"> -
+    <input name="end_date" value="2021.01.01">
+    <br>
+    <br>
+    请输入燃油类型, 比如 20#<br>
+    燃油类型<input name="gus_type" value="20#">
+    <br>
+    <br>
+
+    <input type="submit" value="提交">
+</form>
+<p>数据将导出到程序文件夹下 /output 目录下</p>
+<p style="color:red">注意, 每次导出都将清空 /output 文件夹</p>
+</body>
+</html>

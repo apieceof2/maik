@@ -3,10 +3,7 @@
   "table_name": "营收及人次汇总报表",
   "start_row": 3,
   "vars": {
-    "duration": [
-      1,
-      0
-    ]
+    "duration": [1, 0]
   },
   "row_number": "True",
   "merges": [
