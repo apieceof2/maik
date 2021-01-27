@@ -13,11 +13,14 @@ class IncomeSheet2Table1(Router):
         routes_msg = {}
         for item in q:
             route = getattr(item, 'route')
+            revenue = getattr(item, 'revenue')
+            if not revenue:
+                revenue = 0
             if route in routes_msg:
                 routes_msg[route][0] += 1
-                routes_msg[route][1] += getattr(item, 'revenue')
+                routes_msg[route][1] += revenue
             else:
-                routes_msg[route] = [1, getattr(item, 'revenue')]
+                routes_msg[route] = [1, revenue]
         routes_list = ['1路', '2路', '3路', '4路', '5路', '6路', '7路', '8路', '9路',
                        'K3路', 'K9路', 'K10路', '布尔陶亥', '苗家滩']
         for route in routes_list:
