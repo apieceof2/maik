@@ -46,17 +46,26 @@ class Output:
             'sheet9_table1',
             'sheet10_table1?car',
             'sheet11_table1',
-            'sheet12_table1',
+            'sheet12_table1?car',
             'sheet13_table1',
             'sheet14_table1',
         ]
-
+        # 获得所有car 和 gus
         from models.expend import Expend
+
+        resource_names = ['中石化（加油站）', '中石油（加油站）', '亿通（加油站）1', '亿通（加油站）2']
         car_dict = {}
         cars = []
+        gus_types = []
         for e in Expend.find_all():
             car_name = getattr(e, 'car')
             car_dict[car_name] = 1
+            for name in resource_names:
+                gus_type = e.get_resource(name, 0)
+                if gus_type and gus_type not in gus_types:
+                    gus_types.append(gus_type)
+        print(gus_types)
+
         for c in car_dict.keys():
             cars.append(c)
 
@@ -68,8 +77,9 @@ class Output:
 
                 if arg == 'gus_type':
                     # 如果arg == gus_type, 传入gus_type 导入
-                    signature = sheet_name + '?gus_type=' + gus_type
-                    ExpendSta(signature, duration).output_sheet()
+                    for g in gus_types:
+                        signature = sheet_name + '?gus_type=' + g
+                        ExpendSta(signature, duration).output_sheet()
                 elif arg == 'car':
                     # 如果arg == car, 找到所有车牌号, 导出所有车牌的记录
                     for c in cars:
