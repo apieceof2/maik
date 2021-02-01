@@ -135,6 +135,21 @@ def output_all():
     Output.output_expend_excel(gus_type, duration)
     return render_template('info.html', info="导出成功")
 
+@app.route('/delete', methods=['post'])
+def delete():
+    form = request.form
+    duration = [form.get('start_date'), form.get('end_date')]
+    from models.income import Income
+    from models.expend import Expend
+    Income.delete_by(duration=duration)
+    Expend.delete_by(duration=duration)
+    return render_template('info.html', info="删除完成")
+
+
+@app.route('/delete_show', methods=['get'])
+def delete_show():
+    return render_template('delete_show.html')
+
 
 @app.route('/info')
 def info():

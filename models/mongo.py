@@ -114,6 +114,16 @@ class Mongo(object):
                 setattr(self, k, v)
         self.save()
 
+    def delete(self):
+        name = self.__class__.__name__
+        mongo.db[name].delete_one(self.__dict__)
+
+    @classmethod
+    def delete_by(cls, duration=None, **kwargs):
+        a = cls._find(duration, **kwargs)
+        for i in a:
+            i.delete()
+
     @classmethod
     def find_one(cls, duration=None, **kwargs):
         a = cls._find(duration, **kwargs)
