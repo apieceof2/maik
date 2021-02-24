@@ -7,7 +7,6 @@ app = Flask(__name__)
 app.debug = True
 
 
-
 class Output:
 
     @classmethod
@@ -35,9 +34,9 @@ class Output:
         from statistics.expend_sta import ExpendSta
 
         signs = [
-            'sheet1_table1?gus_type',
-            'sheet2_table1?gus_type',
-            'sheet3_table1?gus_type',
+            'sheet1_table1?gus_type?price',
+            'sheet2_table1?gus_type?price',
+            'sheet3_table1?gus_type?price',
             'sheet4_table1?car',
             'sheet5_table1?car',
             'sheet6_table1?car',
@@ -50,20 +49,26 @@ class Output:
             'sheet13_table1',
             'sheet14_table1',
         ]
-        # 获得所有car 和 gus
+        # 获得所有car 和 gus, 和gus的price
         from models.expend import Expend
 
         resource_names = ['中石化（加油站）', '中石油（加油站）', '亿通（加油站）1', '亿通（加油站）2']
         car_dict = {}
         cars = []
-        gus_types = []
+        gus_types = {}
         for e in Expend.find_all():
             car_name = getattr(e, 'car')
             car_dict[car_name] = 1
             for name in resource_names:
                 gus_type = e.get_resource(name, 0)
-                if gus_type and gus_type not in gus_types:
-                    gus_types.append(gus_type)
+                if not gus_type:
+                    continue
+                price = e.get_resource(name, 1)
+                if gus_type in gus_types:
+                    if price not in gus_types[gus_type]:
+                        gus_types[gus_type].append(price)
+                else:
+                    gus_types[gus_type] = [price]
         print(gus_types)
 
         for c in car_dict.keys():
@@ -71,22 +76,25 @@ class Output:
 
         for s in signs:
             splited = s.split('?')
+            # 如果有3个参数, 就是sheet1, 2, 3
             sheet_name = splited[0]
-            if len(splited) == 2:
+            if len(splited) == 3:
+                arg1 = splited[1]
+                arg2 = splited[2]
+                for g in gus_types.keys():
+                    for p in gus_types[g]:
+                        signature = sheet_name + '?gus_type=' + g + '?price=' + str(p)
+                        ExpendSta(signature, duration).output_sheet()
+            # 如果有两个参数, 就是car
+            elif len(splited) == 2:
                 arg = splited[1]
+                for c in cars:
+                    signature = sheet_name + '?car=' + c
+                    ExpendSta(signature, duration).output_sheet()
 
-                if arg == 'gus_type':
-                    # 如果arg == gus_type, 传入gus_type 导入
-                    for g in gus_types:
-                        signature = sheet_name + '?gus_type=' + g
-                        ExpendSta(signature, duration).output_sheet()
-                elif arg == 'car':
-                    # 如果arg == car, 找到所有车牌号, 导出所有车牌的记录
-                    for c in cars:
-                        signature = sheet_name + '?car=' + c
-                        ExpendSta(signature, duration).output_sheet()
             else:
                 ExpendSta(sheet_name, duration).output_sheet()
+
 
 
 @app.route('/')
@@ -134,6 +142,7 @@ def output_all():
     Output.output_income_excel(duration)
     Output.output_expend_excel(gus_type, duration)
     return render_template('info.html', info="导出成功")
+
 
 @app.route('/delete', methods=['post'])
 def delete():

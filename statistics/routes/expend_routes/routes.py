@@ -18,13 +18,14 @@ def routes_mapping(signature):
     t = signature.split('?')
     print(t)
     name = t[0]
-    if len(t) > 1:
-        key = t[1].split('=')[0]
-        value = t[1].split('=')[1]
-        arg = {key: value}
-        return ROUTES_MAPPING[name](**arg)
-    else:
+    args = {}
+    if len(t) == 1:
         return ROUTES_MAPPING[name]()
+    for arg in t[1:]:
+        temp = arg.split('=')
+        args[temp[0]] = temp[1]
+    return ROUTES_MAPPING[name](**args)
+
 
 ROUTES_MAPPING = {
     # 第一个表不同油类型

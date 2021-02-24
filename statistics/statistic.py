@@ -108,7 +108,7 @@ class Statistic:
         for title in template.get('titles'):
             sheet.write(title[0] + offset, title[1], title[2], self.style)
 
-        # 获得数据
+        # 获得变量数据
         data = self._get_data(self.table_name, row_number=template.get('row_number'))
         data_offset = offset + template.get('start_row')
 
