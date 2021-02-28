@@ -16,11 +16,13 @@ from statistics.routes.income_routes.sheet10_table1 import IncomeSheet10Table1
 def routes_mapping(signature):
     t = signature.split('?')
     name = t[0]
-    if len(t) > 1:
-        value = t[1].split('=')[1]
-        return ROUTES_MAPPING[name](value)
-    else:
+    args = {}
+    for arg in t[1:]:
+        args[arg[0]] = arg[1]
+    if len(args) == 0:
         return ROUTES_MAPPING[name]()
+    else:
+        return ROUTES_MAPPING[name](**args)
 
 
 ROUTES_MAPPING = dict(sheet1_table1=IncomeSheet1Table1, sheet1_table2=IncomeSheet1Table2,

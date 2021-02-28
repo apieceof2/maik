@@ -69,7 +69,6 @@ class Output:
                         gus_types[gus_type].append(price)
                 else:
                     gus_types[gus_type] = [price]
-        print(gus_types)
 
         for c in car_dict.keys():
             cars.append(c)

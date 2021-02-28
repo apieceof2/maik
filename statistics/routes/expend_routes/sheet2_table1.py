@@ -39,7 +39,8 @@ class ExpendSheet2Table1(Router):
         price_after_off = 0.0
         for i in q:
             gus_type = i.get_resource('中石化（加油站）', 0)
-            if gus_type == self.gus_type:
+            gus_price = i.get_resource('中石化（加油站）', 1)
+            if gus_type == self.gus_type and gus_price == self.price:
                 amount += i.get_resource('中石化（加油站）', 2)
                 price += i.get_resource('中石化（加油站）', 3)
                 price_after_off += i.get_resource('中石化（加油站）', 4)

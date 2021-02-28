@@ -53,7 +53,7 @@ class IncomeSheet1Table1(Router):
         if not q:
             return []
         res = [
-            q[0].route, # lm
+            q[0].route,    # lm
             len(q),
             self.sum_by_key(q, 'people_num_by_cash', int),
             self.sum_by_key(q, 'revenue', float),
